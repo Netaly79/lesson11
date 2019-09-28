@@ -2,6 +2,7 @@
 "use strict";
 const  url="https://trevadim.github.io/vue/data/data.json";
 const body = document.querySelector('body');
+let container;
 
 let createHeader = (text) => {
     let header = document.createElement("header");
@@ -12,25 +13,30 @@ let createHeader = (text) => {
 let createMarkUp= ({main},{planets}) => {
     createHeader(main.cosmos);
     createMain({head:main.infoCosmos, paragraf:main.infoFly});
-    createPlanets({planets});
-    
+    createPlanets({planets});  
 }
 
 let createMain=({head,paragraf}) =>{
     let main=document.createElement("main");
-    main.innerHTML=`<h2>${head}</h2><p>${paragraf}</p>`;
-    main.style.textAlign="center";
     body.appendChild(main);
+    container=document.createElement("div");
+    container.innerHTML=`<h2>${head}</h2><p>${paragraf}</p>`;
+    container.style.textAlign="center";
+    container.style.backgroundColor="black";
+    container.style.color="white";
+    container.style.width="900px";
+    container.style.margin="0 auto";
+    main.appendChild(container);
 }
-let createPlanets=({planets}) => {
 
+let createPlanets=({planets}) => {
     let mainList=document.createElement("ul");
     mainList.innerText="Планеты солнечной системы";
     mainList.style.textAlign="center";
     mainList.style.fontSize="26px";
     mainList.style.fontWeight="bold";
-    mainList.style.paddingBottom="20px";
-    body.appendChild(mainList);
+    mainList.style.padding="20px";
+    container.appendChild(mainList);
 
     for (let i in planets){
     let planet=createPlanet(planets[i]);
@@ -44,18 +50,23 @@ let createPlanet=(planet) => {
     newPlanet.style.textAlign="center";
     newPlanet.style.fontSize="24px";
     newPlanet.style.marginTop="24px";
+
     let imagePlanet=document.createElement("img");
     imagePlanet.setAttribute('src',`${planet.url}`);
     imagePlanet.style.display="block";
     imagePlanet.style.margin="0 auto";
+    imagePlanet.style.height="450px";
+    imagePlanet.style.objectFit="cover";
     newPlanet.appendChild(imagePlanet);
+
     for (let i=0; i<planet.info.length; i++){
-    let infotext=document.createElement("p");
-    infotext.innerText=` ${planet.info[i]}`;
-    infotext.style.fontSize="20px";
-    infotext.style.fontWeight="normal";
-    infotext.style.textAlign="justify";
-    newPlanet.appendChild(infotext);}
+        let infotext=document.createElement("p");
+        infotext.innerText=` ${planet.info[i]}`;
+        infotext.style.fontSize="20px";
+        infotext.style.fontWeight="normal";
+        infotext.style.textAlign="justify";
+        newPlanet.appendChild(infotext);
+    }
     return newPlanet;
 }
 
